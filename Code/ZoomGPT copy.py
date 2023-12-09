@@ -15,16 +15,16 @@ def chat_with_gpt4(prompt, model="gpt-4-1106-preview", temperature=0.7, max_toke
     except Exception as e:
         return str(e)
 
-def parse_roles_from_moderator(response):
-    roles = []
-    pattern = r'([Dr|Mr|Ms].+?), (.+)'  # 正则表达式模式
+# def parse_roles_from_moderator(response):
+#     roles = []
+#     pattern = r'([Dr|Mr|Ms].+?), (.+)'  # 正则表达式模式
 
-    matches = re.finditer(pattern, response)
-    for match in matches:
-        name = match.group(1)  # 提取姓名
-        background = match.group(2)  # 提取背景描述
-        roles.append((name, background))
-    return roles
+#     matches = re.finditer(pattern, response)
+#     for match in matches:
+#         name = match.group(1)  # 提取姓名
+#         background = match.group(2)  # 提取背景描述
+#         roles.append((name, background))
+#     return roles
 
 def gpt_conference(start_prompt, meeting_topic, turns=5):
     current_prompt = start_prompt + "\n\nOverall Topic: " + meeting_topic
@@ -45,15 +45,14 @@ def gpt_conference(start_prompt, meeting_topic, turns=5):
             current_prompt += "The order of speaking is as follows: (The output format is as follows: [name_1, name_2, name_3, ...], list the names of speakers in order within a pair of square brackets). "
 
         moderator_response = "\n\nGPT (Moderator):" + chat_with_gpt4(current_prompt)
-        print(moderator_response)
+        print("moderator_response:", moderator_response)
         current_prompt += f"\n\n {moderator_response}"
         # # 各个 GPT 实例的回应
         # 使用正则表达式提取所有名字
         names = re.findall(r'\[([^\]]+)\]', moderator_response)
+        print(names)
         if names:
             roles = names[0].split(', ')  # 分割得到单独的名字
-
-
         for role in roles:
             current_prompt += f"\n\nNow you are {role}, the above is all the content of the meeting up to this point, Please give your speech"
             participant_response = chat_with_gpt4(current_prompt)  # 您的函数来与GPT-4进行对话
