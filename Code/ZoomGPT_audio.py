@@ -1,9 +1,14 @@
 import openai
 import re
+from pathlib import Path
+from openai import OpenAI
 
+client = OpenAI(api_key='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')
+MALE_VOICE = ['alloy', 'nova', 'echo']
+FEMALE_VOICE = ['fybol', 'onyx', 'shimmer']
 
-def chat_with_gpt4(prompt, model="gpt-4-1106-preview", temperature=0.7, max_tokens=150,
-                   api_key='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'):
+def chat_with_gpt4(prompt, model="gpt-4-1106-preview", temperature=0.7, max_tokens=80,
+                   api_key='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'):
     openai.api_key = api_key
 
     try:
@@ -16,6 +21,14 @@ def chat_with_gpt4(prompt, model="gpt-4-1106-preview", temperature=0.7, max_toke
     except Exception as e:
         return str(e)
 
+def text_to_speech(speech, voice, caption):
+    response = client.audio.speech.create(
+        model="tts-1",
+        voice=voice,
+        input=(speech)
+    )
+    speech_file_path = Path(__file__).parent / caption
+    response.stream_to_file(speech_file_path)
 
 def parse_roles_from_moderator(response):
     roles = []
@@ -30,7 +43,7 @@ def parse_roles_from_moderator(response):
     return roles
 
 
-def gpt_conference(start_prompt, meeting_topic, turns=5):
+def gpt_conference(start_prompt, meeting_topic, turns=2):
     current_prompt = start_prompt + "\n\nOverall Topic: " + meeting_topic
 
     for turn in range(turns):
@@ -57,8 +70,10 @@ def gpt_conference(start_prompt, meeting_topic, turns=5):
             current_prompt += "we will focus on the following task: "
             current_prompt += "The following roles will participate in this discussion: (Introduce the name and background of the spokesperson, and the output format is as follows: 1. name, background)"
             current_prompt += "The order of speaking is as follows: (The output format is as follows: [name_1, name_2, name_3, ...], list the names of speakers in order within a pair of square brackets). "
-
-        moderator_response = "\n\nGPT (Moderator):" + chat_with_gpt4(current_prompt)
+        
+        speech = chat_with_gpt4(current_prompt)
+        text_to_speech(speech, MALE_VOICE[0], f"conference_intro_moderator{turn}.mp3")
+        moderator_response = "\n\nGPT (Moderator):" + speech
         print(moderator_response)
         current_prompt += f"\n\n {moderator_response}"
         user_input = input("Do you have any questions? Enter your question and press enter to end, if there are no questions, please press enter directly: ")
@@ -69,9 +84,11 @@ def gpt_conference(start_prompt, meeting_topic, turns=5):
                 break
             else:
                 current_prompt += f"\n\n I am the audience for this meeting, and my question for Moderator is {user_input}"
-                moderator_response = "\n\nGPT (Moderator):" + chat_with_gpt4(current_prompt)
+                audience_speech = chat_with_gpt4(current_prompt)
+                text_to_speech(audience_speech, MALE_VOICE[0], f"conference_audience{turn}.mp3")
+                
+                moderator_response = "\n\nGPT (Moderator):" + audience_speech
                 print(moderator_response)
-
 
         # # 各个 GPT 实例的回应
         # 使用正则表达式提取所有名字
@@ -81,9 +98,12 @@ def gpt_conference(start_prompt, meeting_topic, turns=5):
 
 
         for role in roles:
+            count_role = 1
             current_prompt += f"\n\nNow you are {role}, the above is all the content of the meeting up to this point, Please give your speech"
             participant_response = chat_with_gpt4(current_prompt)  # 您的函数来与GPT-4进行对话
             print(f"\n\nGPT ({role}): {participant_response}")
+            # 不同角色赋予不同音色 count_role
+            text_to_speech(participant_response, MALE_VOICE[2], f"{count_role}conference_participant{turn}.mp3")
             current_prompt += participant_response
             user_input = input(
                 "Do you have any questions? Enter your question and press enter to end, if there are no questions, please press enter directly: ")
@@ -95,12 +115,15 @@ def gpt_conference(start_prompt, meeting_topic, turns=5):
                 else:
                     current_prompt += f"\n\n I am the audience for this meeting, and my question for {role} is {user_input}"
                     moderator_response = f"\n\nGPT ({role}):" + chat_with_gpt4(current_prompt)
+                    text_to_speech(speech, MALE_VOICE[0], f"conference_moderator{turn}.mp3")
                     print(moderator_response)
+            count_role += 1
 
 
         if turn == turns - 1:
             current_prompt += f"\n\nYou are the Moderator of this meeting, the above is all the content of this meeting, please summarize this meeting and give your concluding remarks"
             moderator_response = "\n\nGPT (Moderator):" + chat_with_gpt4(current_prompt)
+            text_to_speech(speech, MALE_VOICE[0], f"conference_moderator{turn}.mp3")
             print(moderator_response)
 
 
