@@ -4,6 +4,7 @@ from pathlib import Path
 from openai import OpenAI
 
 client = OpenAI(api_key='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')
+# https://platform.openai.com/docs/guides/text-to-speech
 MALE_VOICE = ['alloy', 'nova', 'echo']
 FEMALE_VOICE = ['fybol', 'onyx', 'shimmer']
 
