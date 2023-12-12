@@ -1,0 +1,63 @@
+Math dataset.:
+How many vertical asymptotes does the graph of $y=\\frac{2}{x^2+x-6}$ have?
+ZoomGPT：True
+Gimini：True
+ChatGPT：True
+
+
+The probability of rain tomorrow is $\\frac{1}{11}$.  What is the probability that it will not rain tomorrow?  Express your answer as a common fraction.
+ZoomGPT：True	
+Gimini：True
+ChatGPT：True
+
+
+In right triangle $ABC$, shown below, $\\cos{B}=\\frac{6}{10}$.  What is $\\tan{C}$?\n\n[asy]\ndraw((0,0)--(10,0)--(3.6,4.8)--cycle,black+linewidth(1));\ndraw(rightanglemark((0,0),(3.6,4.8),(10,0),20),black+linewidth(1));\nlabel(\"$C$\",(10,0),E);\nlabel(\"$A$\",(3.6,4.8),N);\nlabel(\"$B$\",(0,0),W);\nlabel(\"10\",(0,0)--(10,0),S);\n[/asy]
+ZoomGPT：True
+Gimini：True
+ChatGPT：False
+
+
+Suppose that $x,$ $y,$ and $z$ are complex numbers such that \\[\\begin{aligned} xy &= -80 - 320i, \\\\ yz &=60, \\\\ zx &= -96 + 24i, \\end{aligned}\\]where $i^2 = -1.$ Compute $|x+y+z|.$
+ZoomGPT：False
+Gimini：False
+ChatGPT：False
+
+
+A positive multiple of 45 less than 1000 is randomly selected. What is the probability that it is a two-digit integer? Express your answer as a common fraction.
+ZoomGPT：True
+Gimini：True
+ChatGPT：True
+
+
+The length of one leg of a right triangle is 9 meters. The lengths of the other two sides are consecutive integer numbers of meters. What is the number of meters in the perimeter of the triangle?
+ZoomGPT：True
+Gimini：False
+ChatGPT：True
+
+
+Let $\\mathbf{a}$ and $\\mathbf{b}$ be vectors such that\n\\[\\mathbf{v} = \\operatorname{proj}_{\\mathbf{a}} \\mathbf{v} + \\operatorname{proj}_{\\mathbf{b}} \\mathbf{v}\\]for all vectors $\\mathbf{v}.$  Enter all possible values of $\\mathbf{a} \\cdot \\mathbf{b},$ separated by commas.
+ZoomGPT：True
+Gimini：False
+ChatGPT：True
+
+
+Kirsty needs to hire a plumber to fix her house. The plumber charges $242_5$ dollars for every hour of labor and $367_{8}$ dollars for equipment. If the plumber works for $3.5_{10}$ hours, how many dollars (in base ten) will Kirsty owe the plumber?
+ZoomGPT：True
+Gimini：True
+ChatGPT：True
+
+Let $\\mathbf{u}$ and $\\mathbf{v}$ be vectors such that $\\|\\mathbf{u}\\| = \\|\\mathbf{v}\\| = 2$ and $\\mathbf{u} \\cdot \\mathbf{v} = -1.$  If $\\theta$ is the angle between the vectors $\\mathbf{u} + \\mathbf{v}$ and $2 \\mathbf{u} - \\mathbf{v},$ then find $\\cos \\theta.$
+ZoomGPT：False
+Gimini：False
+ChatGPT：False
+
+
+The parametric curve $(x,y) = (t^2 + t, 2t - 1),$ for real numbers $t,$ describes a parabola.  Find the vertex of the parabola.
+ZoomGPT：True
+Gimini：False
+ChatGPT：True
+
+
+
+
+
